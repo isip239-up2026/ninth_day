@@ -1,0 +1,50 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}Все рецепты — Кулинарная книга{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Все рецепты</h2>
+  {# Задание 4: добавить кнопки сортировки #}
+</div>
+
+{# Задание 1: вывести кнопки-фильтры по категориям #}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for recipe in recipes %}
+  <div class="col">
+    <div class="card h-100 shadow-sm">
+      {% if recipe.image_url %}
+      <img src="{{ recipe.image_url }}" class="card-img-top"
+           style="height: 220px; object-fit: cover;" alt="{{ recipe.title }}">
+      {% else %}
+      <div class="d-flex align-items-center justify-content-center bg-secondary text-white"
+           style="height: 220px; font-size: 4rem;">🍽️</div>
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">
+          <a href="{% url 'recipe_detail' recipe.id %}" class="text-decoration-none text-dark">
+            {{ recipe.title }}
+          </a>
+        </h5>
+        {% if recipe.category %}
+        <span class="badge bg-success mb-2">
+          {{ recipe.category.icon }} {{ recipe.category.name }}
+        </span>
+        {% endif %}
+        <p class="card-text text-muted">{{ recipe.description|truncatewords:15 }}</p>
+      </div>
+      <div class="card-footer d-flex justify-content-between text-muted">
+        <small>⏱ {{ recipe.cooking_time }} мин</small>
+        <small>👤 {{ recipe.servings }} порц.</small>
+        {# Задание 5: добавить счётчик избранного #}
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col"><p class="text-muted">Рецептов пока нет.</p></div>
+  {% endfor %}
+</div>
+
+{# Задание 4: добавить пагинацию #}
+{% endblock %}

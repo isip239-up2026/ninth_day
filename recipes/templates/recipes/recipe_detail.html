@@ -1,0 +1,73 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}{{ recipe.title }} — Кулинарная книга{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-5 mb-4">
+    {% if recipe.image_url %}
+    <img src="{{ recipe.image_url }}" class="img-fluid rounded shadow"
+         style="width: 100%; height: 380px; object-fit: cover;" alt="{{ recipe.title }}">
+    {% else %}
+    <div class="d-flex align-items-center justify-content-center bg-secondary text-white rounded"
+         style="height: 380px; font-size: 6rem;">🍽️</div>
+    {% endif %}
+
+    <div class="card mt-3">
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col">
+            <div class="fw-bold fs-4">{{ recipe.cooking_time }}</div>
+            <small class="text-muted">минут</small>
+          </div>
+          <div class="col border-start border-end">
+            <div class="fw-bold fs-4">{{ recipe.servings }}</div>
+            <small class="text-muted">порций</small>
+          </div>
+          <div class="col">
+            {# Задание 5: количество добавивших в избранное #}
+            <div class="fw-bold fs-4">—</div>
+            <small class="text-muted">в избранном</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# Задание 5: кнопка «В избранное» #}
+
+  </div>
+
+  <div class="col-md-7">
+    <nav aria-label="breadcrumb" class="mb-2">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Рецепты</a></li>
+        {% if recipe.category %}
+        {# Задание 1: добавить ссылку на категорию #}
+        {% endif %}
+        <li class="breadcrumb-item active">{{ recipe.title }}</li>
+      </ol>
+    </nav>
+
+    <h2>{{ recipe.title }}</h2>
+    <p class="text-muted mb-1">Автор: {{ recipe.author }}</p>
+    {% if recipe.category %}
+    <span class="badge bg-success mb-3">
+      {{ recipe.category.icon }} {{ recipe.category.name }}
+    </span>
+    {% endif %}
+
+    <p>{{ recipe.description }}</p>
+
+    <hr>
+
+    <h4>Ингредиенты</h4>
+    {# Задание 3: вывести список ингредиентов #}
+    <p class="text-muted">Ингредиенты не добавлены.</p>
+
+    <hr>
+
+    {# Задание 3: форма добавления ингредиента #}
+
+  </div>
+</div>
+{% endblock %}
