@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Recipe, Category
+from .forms import RecipeForm
+
 
 def index(request):
     recipes = Recipe.objects.select_related("category").all()
@@ -9,6 +11,7 @@ def index(request):
         "categories": categories,
     })
 
+
 def category_recipes(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     recipes = Recipe.objects.filter(category=category).select_related("category")
@@ -16,6 +19,18 @@ def category_recipes(request, category_id):
         "category": category,
         "recipes": recipes,
     })
+
+
+def add_recipe(request):
+    if request.method == "POST":
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            recipe = form.save()
+            return redirect("recipe_detail", recipe_id=recipe.id)
+    else:
+        form = RecipeForm()
+    return render(request, "recipes/add_recipe.html", {"form": form})
+
 
 def recipe_detail(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)

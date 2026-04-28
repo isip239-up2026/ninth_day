@@ -1,0 +1,56 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}Добавить рецепт — Кулинарная книга{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <a href="{% url 'index' %}" class="text-decoration-none text-muted">← Все рецепты</a>
+</div>
+
+<h2>Добавить рецепт</h2>
+
+<div class="card shadow-sm mt-3">
+  <div class="card-body">
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="{{ form.title.id_for_label }}" class="form-label">Название</label>
+        {{ form.title }}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.description.id_for_label }}" class="form-label">Описание</label>
+        {{ form.description }}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.category.id_for_label }}" class="form-label">Категория</label>
+        {{ form.category }}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.author.id_for_label }}" class="form-label">Автор</label>
+        {{ form.author }}
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="{{ form.cooking_time.id_for_label }}" class="form-label">Время (мин)</label>
+          {{ form.cooking_time }}
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="{{ form.servings.id_for_label }}" class="form-label">Порций</label>
+          {{ form.servings }}
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="{{ form.image_url.id_for_label }}" class="form-label">Ссылка на фото</label>
+          {{ form.image_url }}
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success">💾 Сохранить рецепт</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
