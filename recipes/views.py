@@ -1,14 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q
 from .models import Recipe, Category, Ingredient
 from .forms import RecipeForm, IngredientForm
 
 
 def index(request):
-    recipes = Recipe.objects.select_related("category").all()
+    sort = request.GET.get("sort", "-created_at")
+    recipes = Recipe.objects.select_related("category").all().order_by(sort)
     categories = Category.objects.all()
     return render(request, "recipes/index.html", {
         "recipes": recipes,
         "categories": categories,
+        "current_sort": sort,
     })
 
 
@@ -18,6 +21,22 @@ def category_recipes(request, category_id):
     return render(request, "recipes/category.html", {
         "category": category,
         "recipes": recipes,
+    })
+
+
+def search(request):
+    q = request.GET.get("q", "")
+    if q:
+        results = Recipe.objects.filter(
+            Q(title__icontains=q) |
+            Q(author__icontains=q) |
+            Q(category__name__icontains=q)
+        ).select_related("category")
+    else:
+        results = Recipe.objects.none()
+    return render(request, "recipes/search.html", {
+        "results": results,
+        "query": q,
     })
 
 

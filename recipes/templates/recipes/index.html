@@ -5,7 +5,17 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h2>Все рецепты</h2>
-  {# Задание 4: добавить кнопки сортировки #}
+  <div class="btn-group">
+    <a href="?sort=-created_at" class="btn btn-outline-secondary {% if current_sort == '-created_at' %}active{% endif %}">
+      📅 По дате
+    </a>
+    <a href="?sort=cooking_time" class="btn btn-outline-secondary {% if current_sort == 'cooking_time' %}active{% endif %}">
+      🕛 По времени
+    </a>
+    <a href="?sort=title" class="btn btn-outline-secondary {% if current_sort == 'title' %}active{% endif %}">
+      🔤 По алфавиту
+    </a>
+  </div>
 </div>
 
 {# Задание 1: вывести кнопки-фильтры по категориям #}
