@@ -43,6 +43,7 @@
         <li class="breadcrumb-item"><a href="{% url 'index' %}">Рецепты</a></li>
         {% if recipe.category %}
         {# Задание 1: добавить ссылку на категорию #}
+        <li class="breadcrumb-item"><a href="{% url 'category_recipes' recipe.category.id %}">{{recipe.category}}</a></li>
         {% endif %}
         <li class="breadcrumb-item active">{{ recipe.title }}</li>
       </ol>
@@ -61,13 +62,41 @@
     <hr>
 
     <h4>Ингредиенты</h4>
-    {# Задание 3: вывести список ингредиентов #}
-    <p class="text-muted">Ингредиенты не добавлены.</p>
-
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Название</th>
+            <th>Количество</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in ingr %}
+          <tr>
+            <td>{{ i.name }}</td>
+            <td>{{ i.amount }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     <hr>
 
     {# Задание 3: форма добавления ингредиента #}
+      <form method="post" action="{% url 'add_ingredient' recipe.id %}">
+        {% csrf_token %}
 
+        <div class="mb-3">
+          {{ ingredients_form.name.label_tag }}
+          {{ ingredients_form.name }}
+          {{ ingredients_form.name.errors }}
+        </div>
+
+        <div class="mb-3">
+          {{ ingredients_form.amount.label_tag }}
+          {{ ingredients_form.amount }}
+          {{ ingredients_form.amount.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+      </form>
   </div>
 </div>
 {% endblock %}

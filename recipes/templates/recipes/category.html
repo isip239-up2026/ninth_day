@@ -1,0 +1,15 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}Все рецепты — Кулинарная книга{% endblock %}
+
+{% block content %}
+
+{% if category1 %}
+{{category1.name}}
+{{category1.icon}}
+{% endif %}
+
+{% for i in recipe %}
+{{i}}
+{% endfor %}
+{% endblock %}

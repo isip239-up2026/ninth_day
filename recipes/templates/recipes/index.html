@@ -9,6 +9,15 @@
 </div>
 
 {# Задание 1: вывести кнопки-фильтры по категориям #}
+<div>
+  <ul>
+    {% for i in recipes%}
+    <li>
+      <a href="{% url 'category_recipes' i.category.id %}">{{i.category.name}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for recipe in recipes %}
@@ -47,4 +56,26 @@
 </div>
 
 {# Задание 4: добавить пагинацию #}
+
+<div class="sort-buttons">
+    <a href="{% url 'index' %}?sort=cooking_time" class="btn">По времени</a>
+    <a href="{% url 'index' %}?sort=-created_at" class="btn">По дате</a>
+    <a href="{% url 'index' %}?sort=title" class="btn">По алфавиту</a>
+</div>
+
+{% for recipe in page_obj.object_list %}
+
+{% endfor %}
+
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}&sort={{ request.GET.sort }}">Назад</a>
+    {% endif %}
+
+    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&sort={{ request.GET.sort }}">Вперед</a>
+    {% endif %}
+</div>
 {% endblock %}
