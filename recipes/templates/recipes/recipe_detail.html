@@ -25,14 +25,23 @@
             <small class="text-muted">порций</small>
           </div>
           <div class="col">
-            <div class="fw-bold fs-4">—</div>
+            <div class="fw-bold fs-4">{{ favorites_count }}</div>
             <small class="text-muted">в избранном</small>
           </div>
         </div>
       </div>
     </div>
 
-    {# Задание 5: кнопка «В избранное» #}
+    <div class="mt-3">
+      <form method="post" action="{% url 'toggle_favorite' recipe.id %}">
+        {% csrf_token %}
+        {% if is_favorite %}
+        <button type="submit" class="btn btn-danger w-100">💔 Убрать из избранного</button>
+        {% else %}
+        <button type="submit" class="btn btn-outline-danger w-100">❤️ В избранное</button>
+        {% endif %}
+      </form>
+    </div>
 
   </div>
 

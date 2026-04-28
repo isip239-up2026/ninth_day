@@ -1,32 +1,14 @@
 {% extends "recipes/base.html" %}
 
-{% block title %}Все рецепты — Кулинарная книга{% endblock %}
+{% block title %}Избранное — Кулинарная книга{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h2>Все рецепты</h2>
-  <div class="btn-group">
-    <a href="?sort=-created_at" class="btn btn-outline-secondary {% if current_sort == '-created_at' %}active{% endif %}">
-      📅 По дате
-    </a>
-    <a href="?sort=cooking_time" class="btn btn-outline-secondary {% if current_sort == 'cooking_time' %}active{% endif %}">
-      🕛 По времени
-    </a>
-    <a href="?sort=title" class="btn btn-outline-secondary {% if current_sort == 'title' %}active{% endif %}">
-      🔤 По алфавиту
-    </a>
-  </div>
+<div class="mb-4">
+  <a href="{% url 'index' %}" class="text-decoration-none text-muted">← Все рецепты</a>
 </div>
 
-{# Задание 1: вывести кнопки-фильтры по категориям #}
-<div class="mb-4">
-  <a href="{% url 'index' %}" class="btn btn-outline-success me-2 mb-2">🍽️ Все</a>
-  {% for cat in categories %}
-  <a href="{% url 'category_recipes' cat.id %}" class="btn btn-outline-success me-2 mb-2">
-    {{ cat.icon }} {{ cat.name }}
-  </a>
-  {% endfor %}
-</div>
+<h2>❤️ Избранное</h2>
+<p class="text-muted mb-4">{{ recipes|length }} рецептов</p>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for recipe in recipes %}
@@ -53,16 +35,14 @@
         <p class="card-text text-muted">{{ recipe.description|truncatewords:15 }}</p>
       </div>
       <div class="card-footer d-flex justify-content-between text-muted">
-        <small>🕛 {{ recipe.cooking_time }} мин</small>
+        <small>⏱ {{ recipe.cooking_time }} мин</small>
         <small>👤 {{ recipe.servings }} порц.</small>
         <small>❤️ {{ recipe.favorites.count }}</small>
       </div>
     </div>
   </div>
   {% empty %}
-  <div class="col"><p class="text-muted">Рецептов пока нет.</p></div>
+  <div class="col"><p class="text-muted">В избранном пока ничего нет.</p></div>
   {% endfor %}
 </div>
-
-{# Задание 4: добавить пагинацию #}
 {% endblock %}
