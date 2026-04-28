@@ -42,7 +42,11 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'index' %}">Рецепты</a></li>
         {% if recipe.category %}
-        {# Задание 1: добавить ссылку на категорию #}
+        <li class="breadcrumb-item">
+          <a href="{% url 'category_recipes' recipe.category.id %}">
+            {{ recipe.category.icon }} {{ recipe.category.name }}
+          </a>
+        </li>
         {% endif %}
         <li class="breadcrumb-item active">{{ recipe.title }}</li>
       </ol>
