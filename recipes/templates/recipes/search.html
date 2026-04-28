@@ -1,0 +1,55 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}Поиск «{{ query }}» — Кулинарная книга{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <a href="{% url 'index' %}" class="text-decoration-none text-muted">← Все рецепты</a>
+</div>
+
+<h2>🔍 Результаты поиска</h2>
+
+{% if query %}
+  {% if results %}
+    <p class="text-muted mb-4">Найдено: {{ results|length }} по запросу «{{ query }}»</p>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for recipe in results %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          {% if recipe.image_url %}
+          <img src="{{ recipe.image_url }}" class="card-img-top"
+               style="height: 220px; object-fit: cover;" alt="{{ recipe.title }}">
+          {% else %}
+          <div class="d-flex align-items-center justify-content-center bg-secondary text-white"
+               style="height: 220px; font-size: 4rem;">🍽️</div>
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'recipe_detail' recipe.id %}" class="text-decoration-none text-dark">
+                {{ recipe.title }}
+              </a>
+            </h5>
+            {% if recipe.category %}
+            <span class="badge bg-success mb-2">
+              {{ recipe.category.icon }} {{ recipe.category.name }}
+            </span>
+            {% endif %}
+            <p class="card-text text-muted">{{ recipe.description|truncatewords:15 }}</p>
+          </div>
+          <div class="card-footer d-flex justify-content-between text-muted">
+            <small>🕛 {{ recipe.cooking_time }} мин</small>
+            <small>👤 {{ recipe.servings }} порц.</small>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="text-center py-5">
+      <p class="fs-4 text-muted">Ничего не найдено по запросу «{{ query }}»</p>
+    </div>
+  {% endif %}
+{% else %}
+  <p class="text-muted">Введите поисковый запрос.</p>
+{% endif %}
+{% endblock %}

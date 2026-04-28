@@ -11,15 +11,25 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4">
   <div class="container">
     <a class="navbar-brand fw-bold" href="{% url 'index' %}">🍳 Кулинарная книга</a>
-    <div class="collapse navbar-collapse">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a class="nav-link" href="{% url 'index' %}">Все рецепты</a>
         </li>
-        {# Задание 2: добавить ссылку «Добавить рецепт» #}
-        {# Задание 5: добавить ссылку «Избранное» #}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'add_recipe' %}">Добавить рецепт</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'favorites' %}">❤️ Избранное</a>
+        </li>
       </ul>
-      {# Задание 4: добавить форму поиска #}
+      <form class="d-flex ms-3" method="get" action="{% url 'search' %}">
+        <input class="form-control me-2" type="search" name="q" placeholder="Поиск рецептов..." value="{{ query }}">
+        <button class="btn btn-outline-light" type="submit">🔍</button>
+      </form>
     </div>
   </div>
 </nav>
