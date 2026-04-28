@@ -64,12 +64,42 @@
     <hr>
 
     <h4>Ингредиенты</h4>
-    {# Задание 3: вывести список ингредиентов #}
+    {% if ingredients %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Ингредиент</th>
+          <th>Количество</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ingredient in ingredients %}
+        <tr>
+          <td>{{ ingredient.name }}</td>
+          <td>{{ ingredient.amount }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
     <p class="text-muted">Ингредиенты не добавлены.</p>
+    {% endif %}
 
     <hr>
 
-    {# Задание 3: форма добавления ингредиента #}
+    <h5>Добавить ингредиент</h5>
+    <form method="post" action="{% url 'add_ingredient' recipe.id %}" class="row g-2">
+      {% csrf_token %}
+      <div class="col-md-5">
+        {{ form.name }}
+      </div>
+      <div class="col-md-5">
+        {{ form.amount }}
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-success w-100">Добавить</button>
+      </div>
+    </form>
 
   </div>
 </div>

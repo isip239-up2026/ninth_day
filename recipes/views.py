@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Recipe, Category
-from .forms import RecipeForm
+from .models import Recipe, Category, Ingredient
+from .forms import RecipeForm, IngredientForm
 
 
 def index(request):
@@ -34,4 +34,21 @@ def add_recipe(request):
 
 def recipe_detail(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
-    return render(request, "recipes/recipe_detail.html", {"recipe": recipe})
+    ingredients = recipe.ingredients.all()
+    form = IngredientForm()
+    return render(request, "recipes/recipe_detail.html", {
+        "recipe": recipe,
+        "ingredients": ingredients,
+        "form": form,
+    })
+
+
+def add_ingredient(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if request.method == "POST":
+        form = IngredientForm(request.POST)
+        if form.is_valid():
+            ingredient = form.save(commit=False)
+            ingredient.recipe = recipe
+            ingredient.save()
+    return redirect("recipe_detail", recipe_id=recipe.id)
